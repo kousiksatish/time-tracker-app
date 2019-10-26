@@ -5,26 +5,25 @@ import CurrentState from './CurrentState';
 import RecordActivity from './RecordActivity';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
+    state = {
+        timeTracker: {
             inOffice: false
-        };
-    }
+        }
+    };
     handleInOutToggle = () => {
         console.log('Invoked')
-        this.setState({
-            inOffice: !this.state.inOffice
-        });
+        const timeTracker = { ...this.state.timeTracker, inOffice: !this.state.timeTracker.inOffice};
+        console.log(timeTracker);
+        this.setState({ timeTracker });
     }
     render() {
         return (
             <div className="App">
                 <h1>Track your time!</h1>
                 <br /><br />
-                <CurrentState inOffice = {this.state.inOffice} />
+                <CurrentState inOffice = {this.state.timeTracker.inOffice} />
                 <hr />
-                <RecordActivity inOffice = {this.state.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
+                <RecordActivity inOffice = {this.state.timeTracker.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
             </div>
         );
   }
