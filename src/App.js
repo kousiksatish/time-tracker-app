@@ -3,6 +3,10 @@ import './App.css';
 import './bootstrap.min.css';
 import CurrentState from './CurrentState';
 import RecordActivity from './RecordActivity';
+import configureStore from './redux/configureStore';
+import { Provider } from 'react-redux';
+
+const store = configureStore();
 
 class App extends Component {
     state = {
@@ -18,6 +22,7 @@ class App extends Component {
     }
     render() {
         return (
+            <Provider store = {store}>
             <div className="App">
                 <h1>Track your time!</h1>
                 <br /><br />
@@ -25,6 +30,7 @@ class App extends Component {
                 <hr />
                 <RecordActivity inOffice = {this.state.timeTracker.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
             </div>
+            </Provider>
         );
   }
 }
