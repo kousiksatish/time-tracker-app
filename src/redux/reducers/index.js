@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import timeTracker from './timeTrackerReducer';
 
 const rootReducer = combineReducers({
-    timeTracker: timeTracker
+    timeTracker
 });
 
 export default rootReducer;

@@ -1,3 +1,3 @@
-export function toggleTimeTracker(timeTracker) {
-    return { type: "INOUT_TOGGLE", timeTracker};
+export function toggleTimeTracker() {
+    return { type: "INOUT_TOGGLE" };
 }
