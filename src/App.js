@@ -3,10 +3,9 @@ import './App.css';
 import './bootstrap.min.css';
 import CurrentState from './CurrentState';
 import RecordActivity from './RecordActivity';
-import configureStore from './redux/configureStore';
-import { Provider } from 'react-redux';
-
-const store = configureStore();
+import { connect } from 'react-redux';
+import * as timeTrackerActions from './redux/actions/timeTrackerActions';
+import PropTypes from 'prop-types';
 
 class App extends Component {
     state = {
@@ -16,23 +15,39 @@ class App extends Component {
     };
     handleInOutToggle = () => {
         console.log('Invoked')
-        const timeTracker = { ...this.state.timeTracker, inOffice: !this.state.timeTracker.inOffice};
-        console.log(timeTracker);
-        this.setState({ timeTracker });
+        this.props.toggleTimeTracker();
     }
     render() {
         return (
-            <Provider store = {store}>
             <div className="App">
                 <h1>Track your time!</h1>
                 <br /><br />
-                <CurrentState inOffice = {this.state.timeTracker.inOffice} />
+                <CurrentState inOffice = {this.props.timeTracker.inOffice} />
                 <hr />
-                <RecordActivity inOffice = {this.state.timeTracker.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
+                <RecordActivity inOffice = {this.props.timeTracker.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
             </div>
-            </Provider>
         );
   }
 }
 
-export default App;
+App.propTypes = {
+    timeTracker: PropTypes.object.isRequired,
+    toggleTimeTracker: PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+    return {
+        timeTracker: state.timeTracker
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        toggleTimeTracker: () => dispatch(timeTrackerActions.toggleTimeTracker())
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(App);
