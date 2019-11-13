@@ -5,18 +5,25 @@ import CurrentState from './CurrentState';
 import RecordActivity from './RecordActivity';
 import { connect } from 'react-redux';
 import * as timeTrackerActions from './redux/actions/timeTrackerActions';
+import * as timerActions from './redux/actions/timerActions';
 import PropTypes from 'prop-types';
 import Timer from './Timer';
 
 class App extends Component {
-    state = {
-        timeTracker: {
-            inOffice: false
-        }
-    };
+    state = {}
+    interval;
     handleInOutToggle = () => {
         console.log('Invoked')
         this.props.toggleTimeTracker();
+        if(!this.props.timeTracker.inOffice) {
+            console.log(`Timer`)
+            this.interval = setInterval(() => {
+                this.props.tickTimer(this.state.timer);
+            }, 1000);
+        } else {
+            clearInterval(this.interval);
+        }
+        
     }
     render() {
         return (
@@ -34,18 +41,22 @@ class App extends Component {
 
 App.propTypes = {
     timeTracker: PropTypes.object.isRequired,
+    timer: PropTypes.object.isRequired,
     toggleTimeTracker: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
+    console.log(JSON.stringify(state));
     return {
-        timeTracker: state.timeTracker
+        timeTracker: state.timeTracker,
+        timer: state.timer
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        toggleTimeTracker: () => dispatch(timeTrackerActions.toggleTimeTracker())
+        toggleTimeTracker: () => dispatch(timeTrackerActions.toggleTimeTracker()),
+        tickTimer: timer => dispatch(timerActions.tickTimer(timer))
     };
 }
 
