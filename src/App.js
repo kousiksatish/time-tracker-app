@@ -6,6 +6,7 @@ import RecordActivity from './RecordActivity';
 import { connect } from 'react-redux';
 import * as timeTrackerActions from './redux/actions/timeTrackerActions';
 import PropTypes from 'prop-types';
+import Timer from './Timer';
 
 class App extends Component {
     state = {
@@ -22,6 +23,7 @@ class App extends Component {
             <div className="App">
                 <h1>Track your time!</h1>
                 <br /><br />
+                <Timer timer = {this.props.timer} />
                 <CurrentState inOffice = {this.props.timeTracker.inOffice} />
                 <hr />
                 <RecordActivity inOffice = {this.props.timeTracker.inOffice} handleInOutToggle = {this.handleInOutToggle}/>
